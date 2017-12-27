@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Mail Alias</title>
+	<!-- use viewport as per device width (browser, small device etc.,) -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<!-- link to bootstrap pre-defined stylesheet -->
+	<link rel="stylesheet" type="text/css" href="/static/bootstrap.min.css" />
+</head>
+<body>
+	<!-- bootstrap required every thing in a container -->
+	<div class="container">
+		<header>
+			<div class="row">
+				<div class="col-md-6">
+					<a href="{{ url_for('mxalias') }}">Home</a>
+				</div>
+			</div>
+			<hr>
+
+			<div class="row">
+				<div class="col-md-6">
+
+				</div>
+			</div>
+		</header>
+
+		<div class="row">
+			<div class="col-md-12">
+				<h1>Mail Alias</h1>
+			</div>
+		</div>
+
+		<!-- main block for other templates to add their own content -->
+		<div class="row" id="content">
+			{% block content %}
+			{% endblock %}
+		</div>
+
+		<footer>
+			<hr>
+			<p class="text-muted">Mail Alias &copy; 2017 </p>
+		</footer>
+	</div>
+</body>
+</html>
