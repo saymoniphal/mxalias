@@ -5,10 +5,16 @@
 {% block content %}
 
 <script language="JavaScript">
+var counter = 0;
 function addEmail() {
+    counter++;
     console.log("Function is called!");
-    <!-- document.forms["emails"]["inputemails"].appendChild(<input type="text">); -->
-    document.getElementById("mxalias").innerHTML.color = "red";
+    var inputText = document.createElement("input");
+    inputText.type = "text";
+    inputText.id = "email" + counter;
+    document.forms["emails"]["inputemails"].appendChild(inputText);
+    document.getElementById("mxalias").style.color = "red";
+    <!-- TO DO: appending child not working yet  because it seems to be in same row ... need to add a div, row?--> 
 }
 </script>
 
