@@ -6,11 +6,11 @@ from flask import redirect, url_for, render_template
 app = Flask(__name__, template_folder="templates")
 
 @app.route('/')
-@app.route('/mxalias')
+@app.route('/alias')
 def index():
     return redirect(url_for('showAlias'))
 
-@app.route('/mxalias/showalias')
+@app.route('/alias/showalias')
 def showAlias():
     return render_template('newalias.html')
 
