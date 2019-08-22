@@ -5,20 +5,19 @@ from flask import redirect, url_for, render_template
 
 app = Flask(__name__, template_folder="templates")
 
-@app.route('/')
-@app.route('/alias')
-def index():
-    return redirect(url_for('showAlias'))
 
-@app.route('/alias/showalias')
-def showAlias():
-    return render_template('newalias.html')
+@app.route('/')
+@app.route('/v1/alias')
+def index():
+    return redirect(url_for('show_alias')) # looking for a function show_alias() in alias module
+
 
 def main():
-    portnum = 8082
+    port_num = 8082
     hostname = '0.0.0.0'
-    print("Application running on port %d, host=%s" %(portnum, hostname))
-    app.run(host=hostname, port=portnum, debug=True)
+    print("Application running on port %d, host=%s" % (port_num, hostname))
+    app.run(host=hostname, port=port_num, debug=True)
+
 
 if __name__ == '__main__':
     main()
