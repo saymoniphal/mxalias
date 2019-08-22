@@ -1,0 +1,11 @@
+# exclude venv
+venv/
+
+# exclude compiled .pyc files
+*.pyc
+
+# exclude local IDE config
+.idea/
+
+# exclude anything ended with .ignore
+*.ignore

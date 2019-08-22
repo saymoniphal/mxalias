@@ -5,36 +5,43 @@
 {% block content %}
 
 <script language="JavaScript">
-var counter = 0;
+var counter = 1;
 function addEmail() {
+    // add a new text input for another email
     counter++;
     console.log("Function is called!");
-    var inputText = document.createElement("input");
-    inputText.type = "text";
-    inputText.id = "email" + counter;
-    document.forms["emails"]["inputemails"].appendChild(inputText);
-    document.getElementById("mxalias").style.color = "red";
+    // Create a new element for email
+    var newEmail = document.createElement("input");
+    newEmail.type = "text";
+    newEmail.id = "email" + counter;
+    // Get the current email element
+    var emailText = document.getElementById("email1");
+    // Get a reference to the parent node
+    var parentDiv = emailText.parentNode;
+
+    parentDiv.insertBefore(newEmail, emailText);
+    document.getElementById("display_email").innerHTML = "red";
     <!-- TO DO: appending child not working yet  because it seems to be in same row ... need to add a div, row?--> 
 }
 </script>
 
 <form class="form-horizontal" method="post" name="emails">
-	<div class="form-group">
-		<label for="mxalias" class="control-label">Alias address</label>
-		<input type="text" class="form-control col-md-4" id="mxalias"> 
+	<div class="form-group row">
+		<label for="mxalias" class="control-label col-md-6">Alias address</label>
+		<input type="text" class="form-control col-md-6" id="mxalias"> 
 	</div>
 
 	<div class="form-group row" id="inputemails">
-		<label for="email" class="col-md-4">Email</label>
-		<input type="text" class="form-control col-md-6" id="mail">
-		<input type="button" class="btn btn-default col-md-2" id="addemail" 
+		<label for="email" class="control-label col-md-4">Email</label>
+		<input type="text" class="form-control col-md-6" id="email1">
+		<input type="button" class="btn btn-secondary btn-sm col-md-2" id="addemail" 
             onclick="addEmail()" value="Add">
 	</div>
     <div class="form-group row">
         <label for="display_email" class="col-md-4" id="display_email"></label>
     </div> 
 
-	<div class="form-group">
+	<div class="form-group row">
 		<button class="btn btn-primary" value="cancel">cancel</button>
 		<button class="btn btn-primary" value="submit">submit</button>
 	</div>

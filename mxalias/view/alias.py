@@ -6,8 +6,12 @@ from flask import redirect, url_for, render_template
 from mxalias import app
 
 @app.route('/v1/alias/edit', method=("GET", "POST"))
+def editAlias():
+    return render_template('newalias.html')
+
+@app.route('/v1/alias/new', method=("POST"))
 def newAlias():
-    return render_template('newalias.html'))
+    return render_template('newalias.html')
 
 @app.route('/v1/alias/mails')
 def showAll():
