@@ -1,0 +1,30 @@
+<!-- inherits from base.html page -->
+{% extends "base.html" %}
+
+<!-- start jinja content block -->
+{% block content %}
+
+<!-- add new alias -->
+<div class="row">
+    <div class="col-md-6">
+        <a href="{{ url_for('new_alias') }}">Add new mail alias</a>
+    </div>
+</div>
+
+<hr>
+<!-- displays list of alias if exists -->
+{% if alias_list %}
+<h5>Existing mail aliases:</h5>
+{% for mxalias in alias_list %}
+<div class="row">
+    <div class="col">
+    <a href="{{ url_for('edit_alias', alias_addr=mxalias.alias, forw_addr=mxalias.forw_addr)}}">{{ mxalias.alias }} </a>
+    </div>
+    <div class="col">
+        {{ mxalias.forw_addr }}
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+<!-- end of jinja content block -->
+{% endblock %}
