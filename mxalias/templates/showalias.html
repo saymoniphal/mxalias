@@ -6,7 +6,7 @@
 
 <!-- add new alias -->
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-sm-4">
         <a href="{{ url_for('new_alias') }}">Add new mail alias</a>
     </div>
 </div>
@@ -14,14 +14,19 @@
 <hr>
 <!-- displays list of alias if exists -->
 {% if alias_list %}
-<h5>Existing mail aliases:</h5>
+<h5><strong>Existing mail aliases:</strong></h5>
+<p>There are <strong>{{ count }}</strong> aliases:
+<div class="row bg-info">
+	<div class="col-sm-4"><strong>Alias</strong></div>
+	<div class="col-sm-4"><strong>Forward address</strong></div>
+</div>
 {% for mxalias in alias_list %}
 <div class="row">
-    <div class="col">
-    <a href="{{ url_for('edit_alias', alias_addr=mxalias.alias, forw_addr=mxalias.forw_addr)}}">{{ mxalias.alias }} </a>
-    </div>
-    <div class="col">
-        {{ mxalias.forw_addr }}
+    <div class="col-sm-4">{{ mxalias.alias }}</div> 
+    <div class="col-sm-4">{{ mxalias.forw_addr }}</div>
+    <div class="col-sm-4">
+    <a href="{{ url_for('edit_alias', alias_addr=mxalias.alias, forw_addr=mxalias.forw_addr)}}" class="m-1">Edit</a>
+    <a href="{{ url_for('delete_alias', alias_addr=mxalias.alias, forw_addr=mxalias.forw_addr)}}" class="m-1">Delete</a>
     </div>
 </div>
 {% endfor %}

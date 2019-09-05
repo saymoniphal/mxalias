@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h4>Delete Alias {{ item.name }}</h4>
+<h4>Delete Alias {{ alias_addr }}</h4>
 
 <form method="post" class="form-horizontal">
   <div class="form-group">
@@ -10,7 +10,7 @@
   </div>
 
   <p>
-    You are deleting alias <strong>{{ alias_addr }}</strong> with forward address <strong>{{ forw_addr }}</strong>.
+  You are deleting alias: <strong><em>{{ alias_addr }}</em></strong> with forward address: <strong><em>{{ forw_addr }}</em></strong>.
   </p>
 
   <div class="form-group">

@@ -31,7 +31,7 @@ function addEmail() {
 <div class="row">
 <div class="col">
 {% if name and (name == 'edit_alias' or name == 'delete_alias') %}
-    <h4>Modify/Delete Alias</h4>
+    <h4>Modify Alias</h4>
 {% elif name and name == 'new_alias' %}
     <h4>Create new Alias</h4>
 {% endif %}
@@ -40,7 +40,7 @@ function addEmail() {
 
 <form class="form-horizontal" method="post" name="emails">
 	<div class="form-group row">
-		<label for="alias" class="control-label col-sm">Alias address</label>
+		<label for="alias" class="control-label col-sm-2">Alias address</label>
         {% if alias_addr %}
 		    <input type="text" class="form-control col-sm" id="alias" name="alias" value={{alias_addr}}>
         {% else %}
@@ -52,26 +52,23 @@ function addEmail() {
     <!-- element id vs name:
          id: used for easy access to element in Javascript/CSS (getElementById(<id>)
          name: used to identify elements in form when browser sent to server (key-value of a dictionary like object!-->
-		<label for="email" class="control-label col-md-4">Email</label>
+		<label for="email" class="control-label col-sm-2">Email</label>
         {% if forw_addr %}
 		    <input type="text" class="form-control col-sm" id="email1" name='email1' value={{ forw_addr }}>
         {% else %}
 		    <input type="text" class="form-control col-sm" id="email1" name='email1'>
-		    <input type="button" class="btn btn-secondary btn-sm col-md-2 mr-1" id="addemail" 
+		    <input type="button" class="btn btn-secondary btn-sm col-sm-1 m-1" id="addemail" 
             onclick="addEmail()" value="Add">
 		    <input type="hidden" class="col-md-4" id="forw_addr_cnt" name="forw_addr_cnt" value="1">
         {% endif %}
 	</div>
 
 	<div class="form-group row">
-		<button class="btn btn-primary" name="post_action" value="cancel_alias">cancel</button>
-        {% if name and (name == 'edit_alias' or name == 'delete_alias') %}
-        <p>{{ name }}</p>
-		    <button class="btn btn-primary mr-1" name="post_action" value="edit_alias">save</button>
-		    <button class="btn btn-primary mr-1" name="post_action" value="delete_alias">delete</button>
+		<button class="btn btn-warning m-1" name="post_action" value="cancel_alias">cancel</button>
+        {% if name and (name == 'edit_alias') %}
+		    <button class="btn btn-primary m-1" name="post_action" value="edit_alias">save</button>
         {% elif name and name == 'new_alias' %}
-        <p>{{ name }}</p>
-		    <button class="btn btn-primary mr-1" name="post_action" value="save_alias">save</button>
+		    <button class="btn btn-primary m-1" name="post_action" value="save_alias">save</button>
         {% endif %}
 	</div>
 </form>
