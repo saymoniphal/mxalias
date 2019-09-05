@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h4>Delete Alias {{ item.name }}</h4>
+
+<form method="post" class="form-horizontal">
+  <div class="form-group">
+    <input class="form-control" type="hidden" name="alias_addr" value="{{ alias_addr }}">
+    <input class="form-control" type="hidden" name="forw_addr" value="{{ forw_addr }}">
+  </div>
+
+  <p>
+    You are deleting alias <strong>{{ alias_addr }}</strong> with forward address <strong>{{ forw_addr }}</strong>.
+  </p>
+
+  <div class="form-group">
+    <button class="btn btn-primary" name="post_action" value="delete_alias">Delete</button>
+    <button class="btn btn-warning" name="post_action" value="cancel_delete">Cancel</button>
+  </div>
+</form>
+{% endblock %}
