@@ -46,12 +46,18 @@ def show_alias():
 
 @app.route('/v1/alias/<string:alias_addr>/<string:forw_addr>/edit', methods=["GET", "POST"])
 def edit_alias(alias_addr=None, forw_addr=None):
-    sess = sqldb.session
-    mxalias = Mxalias.query.filter_by(alias=alias_addr, forw_addr=forw_addr)
+    mxalias_obj = Mxalias.query.filter_by(alias=alias_addr, forw_addr=forw_addr)
+    print("EDIT ALIAS " + alias_addr, forw_addr)
     if request.method == 'POST':
-        flash("Under construction!") 
+        print(request.form)
+        if request.form['post_action'] == 'edit_alias':
+            mxalias_obj.alias = request.form['alias']
+            mxalias_obj.forw_addr = request.form['email1'] 
+            print(mxalias_obj)
+            sqldb.session.commit()
+        return redirect(url_for('show_alias'))
     else:
-        return render_template('newalias.html', name='Edit alias',
+        return render_template('newalias.html', name='edit_alias',
                                alias_addr=alias_addr, forw_addr=forw_addr)
 
 
@@ -71,7 +77,6 @@ def new_alias():
                 email = 'email' + str(i)
                 if email in req_form and req_form[email]:
                     forward_emails.append(req_form[email])
-            print(forward_emails)
             # add to the database
             for forw_addr in forward_emails:
                 alias_obj = Mxalias(alias=alias, forw_addr=forw_addr)
@@ -82,7 +87,21 @@ def new_alias():
             print(alias_list)
             return redirect(url_for('show_alias'))
     else: # request.method == 'GET'
-        return render_template('newalias.html', name='New alias')
+        return render_template('newalias.html', name='new_alias')
+
+
+@app.route('/v1/alias/<string:alias_addr>/<string:forw_addr>/delete', methods=['GET', 'POST'])
+def delete_alias(alais_addr=None, forw_addr=None):
+    alias_obj = Mxalias.query.filter_by(alias=alias_addr, forw_addr=forw_addr)
+    print("DELETE ALIAS " + alias_addr, forw_addr)
+    if request.mothod == 'POST':
+        if request.form['post_action'] == 'delete_alias':
+            sqldb.session.delete(alias_obj)
+            sqldb.session.commit()
+        return redirect(url_for('show_alias'))
+    else:
+        return render_template('newalias.html', name='delete_alias',
+                               alias_addr=alias_addr, forw_addr=forw_addr)
 
 
 class Mxalias(sqldb.Model):
