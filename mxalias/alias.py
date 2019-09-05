@@ -13,7 +13,8 @@ def load_config(config_file, app):
 
     app.config['SECRET_KEY'] = urandom(16) # app secret key in unicode
     # note: 'config' is an attribute of the Flask object, it's a subclass of Dictionary
-    app.config['SQLALCHEMY_DATABASE_URI'] = configs['db_uri_sqlite']
+    #app.config['SQLALCHEMY_DATABASE_URI'] = configs['db_uri_sqlite']
+    app.config['SQLALCHEMY_DATABASE_URI'] = configs['db_uri']
     app.config['HOST'] = configs['host']
     app.config['PORT'] = configs['port']
     return app 
