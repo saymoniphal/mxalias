@@ -39,6 +39,9 @@ function addEmail() {
 </div>
 
 <form class="form-horizontal" method="post" name="emails">
+    {% if exist and exist == True and alias_addr and forw_addr %}
+        <p class="text-danger">Alias <strong>{{alias_addr}}</strong> with forward address <strong>{{forw_addr}}</strong> already exists! Please choose other alias.</p>
+    {% endif %}
 	<div class="form-group row">
 		<label for="alias" class="control-label col-sm-2">Alias address</label>
         {% if alias_addr %}
@@ -57,6 +60,8 @@ function addEmail() {
 		    <input type="text" class="form-control col-sm" id="email1" name='email1' value={{ forw_addr }}>
         {% else %}
 		    <input type="text" class="form-control col-sm" id="email1" name='email1'>
+        {% endif %}
+        {% if name and (name == 'new_alias') %}
 		    <input type="button" class="btn btn-secondary btn-sm col-sm-1 m-1" id="addemail" 
             onclick="addEmail()" value="Add">
 		    <input type="hidden" class="col-md-4" id="forw_addr_cnt" name="forw_addr_cnt" value="1">

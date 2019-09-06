@@ -50,7 +50,6 @@ def edit_alias(alias_addr=None, forw_addr=None):
             mxalias_obj = Mxalias.query.filter_by(alias=alias_addr, forw_addr=forw_addr).update({'alias':request.form['alias'], 'forw_addr': request.form['email1']})
             #mxalias_obj.alias = request.form['alias']
             #mxalias_obj.forw_addr = request.form['email1'] 
-            #print(mxalias_obj)
             sqldb.session.commit()
         return redirect(url_for('show_alias'))
     else:
@@ -66,17 +65,24 @@ def new_alias():
             # get alias and all emails
             alias = req_form['alias']
             counter = req_form['forw_addr_cnt']
-            # emails = request.form['input_emails'].getlist() can't get list of emails
-            # print(emails)
             forward_emails = []
             for i in range(1, int(counter)+1):
                 email = 'email' + str(i)
                 if email in req_form and req_form[email]:
                     forward_emails.append(req_form[email])
             # add to the database
+            alias_list = []
             for forw_addr in forward_emails:
-                alias_obj = Mxalias(alias=alias, forw_addr=forw_addr)
-                sqldb.session.add(alias_obj)
+                # ensure alias does not exist
+                exists = Mxalias.query.filter_by(alias=alias, forw_addr=forw_addr).scalar()
+                if exists is not None:
+                    return render_template('newalias.html', name='new_alias', exist=True,
+                                            alias_addr=alias, forw_addr=forw_addr)
+
+                else:
+                    alias_obj = Mxalias(alias=alias, forw_addr=forw_addr)
+                    alias_list.append(alias_obj)
+            sqldb.session.add_all(alias_list)
             sqldb.session.commit()
         return redirect(url_for('show_alias'))
     else: # request.method == 'GET'
@@ -88,8 +94,6 @@ def delete_alias(alias_addr=None, forw_addr=None):
     alias_obj = Mxalias.query.filter_by(alias=alias_addr, forw_addr=forw_addr).one()
 
     if request.method == 'POST':
-        print(request.form)
-        print("delete alias print1")
         if request.form['post_action'] == 'delete_alias':
             sqldb.session.delete(alias_obj)
             sqldb.session.commit()
