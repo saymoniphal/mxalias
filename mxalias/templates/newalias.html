@@ -25,6 +25,12 @@ function addEmail() {
     // email_counter_field.innerHTML = "Function addEmail() is called!";
     counter_field.value = counter;
 }
+
+
+function validate_alias() {
+    // special characters are not allowed as alias or forward address
+    specials = ['\', ''', '"']
+}
 </script>
 
 <hr>
@@ -41,6 +47,9 @@ function addEmail() {
 <form class="form-horizontal" method="post" name="emails">
     {% if exist and exist == True and alias_addr and forw_addr %}
         <p class="text-danger">Alias <strong>{{alias_addr}}</strong> with forward address <strong>{{forw_addr}}</strong> already exists! Please choose other alias.</p>
+    {% endif %}
+    {% if invalid and invalid == True %}
+        <p class="text-danger">Alias <strong>{{alias_addr}}</strong> {% if forw_addr %}with forward address <strong>{{forw_addr}}</strong>{% endif %} is not valid! Please choose other alias.</p>
     {% endif %}
 	<div class="form-group row">
 		<label for="alias" class="control-label col-sm-2">Alias address</label>

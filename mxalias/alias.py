@@ -24,7 +24,7 @@ config_file = path.join(path.dirname(path.abspath(__file__)), 'mxalias.config')
 app = Flask(__name__, template_folder='templates')
 load_config(config_file, app)
 sqldb = SQLAlchemy(app)
-
+escapes = ['/', '\'', '\\', '\"', '&']
 
 @app.route('/')
 @app.route('/alias')
@@ -47,9 +47,14 @@ def edit_alias(alias_addr=None, forw_addr=None):
     mxalias_obj = Mxalias.query.filter_by(alias=alias_addr, forw_addr=forw_addr)
     if request.method == 'POST':
         if request.form['post_action'] == 'edit_alias':
-            mxalias_obj = Mxalias.query.filter_by(alias=alias_addr, forw_addr=forw_addr).update({'alias':request.form['alias'], 'forw_addr': request.form['email1']})
-            #mxalias_obj.alias = request.form['alias']
-            #mxalias_obj.forw_addr = request.form['email1'] 
+            new_alias = request.form['alias']
+            new_forw_addr = request.form['email1']
+            if not _valid(new_alias) or not _valid(new_forw_addr):
+                return render_template('newalias.html', name='edit_alias', 
+                                        invalid=True, alias_addr=new_alias, forw_addr=new_forw_addr), 400
+
+            mxalias_obj = Mxalias.query.filter_by(alias=alias_addr, forw_addr=forw_addr).update({'alias': new_alias,
+                                                                                                 'forw_addr': new_forw_addr})
             sqldb.session.commit()
         return redirect(url_for('show_alias'))
     else:
@@ -64,6 +69,10 @@ def new_alias():
         if request.form['post_action'] == 'save_alias':
             # get alias and all emails
             alias = req_form['alias']
+            if not _valid(alias):
+                return render_template('newalias.html', name='new_alias', 
+                                        invalid=True, alias_addr=alias), 400
+
             counter = req_form['forw_addr_cnt']
             forward_emails = []
             for i in range(1, int(counter)+1):
@@ -79,6 +88,9 @@ def new_alias():
                     return render_template('newalias.html', name='new_alias', exist=True,
                                             alias_addr=alias, forw_addr=forw_addr)
 
+                if not _valid(forw_addr):
+                    return render_template('newalias.html', name='new_alias', invalid=True,
+                                            alias_addr=alias, forw_addr=forw_addr), 400
                 else:
                     alias_obj = Mxalias(alias=alias, forw_addr=forw_addr)
                     alias_list.append(alias_obj)
@@ -104,10 +116,17 @@ def delete_alias(alias_addr=None, forw_addr=None):
 
 
 
-@app.route('/v1/alias/<string:alias_addr>/json')
+@app.route('/api/v1/alias/<string:alias_addr>')
 def alias(alias_addr):
     aliases = Mxalias.query.filter_by(alias=alias_addr)
     return jsonify([alias.serialize for alias in aliases])
+
+
+def _valid(alias):
+    for char in alias:
+        if char in escapes:
+            return False
+    return True
 
 
 class Mxalias(sqldb.Model):
