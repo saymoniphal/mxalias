@@ -1,7 +1,7 @@
 #!/bin/bash/env python3
 
 from flask import Flask
-from flask import flash, redirect, request, url_for, render_template
+from flask import flash, redirect, request, url_for, render_template, jsonify
 from os import urandom, path
 import json
 from flask_sqlalchemy import SQLAlchemy
@@ -103,6 +103,13 @@ def delete_alias(alias_addr=None, forw_addr=None):
                             alias_addr=alias_addr, forw_addr=forw_addr)
 
 
+
+@app.route('/v1/alias/<string:alias_addr>/json')
+def alias(alias_addr):
+    aliases = Mxalias.query.filter_by(alias=alias_addr)
+    return jsonify([alias.serialize for alias in aliases])
+
+
 class Mxalias(sqldb.Model):
 
     __tablename__ = 'mxaliases'
@@ -112,3 +119,10 @@ class Mxalias(sqldb.Model):
     def __repr__(self):
         return '<Mxaliases: %s %s>' %(self.alias, self.forw_addr)
 
+    @property
+    def serialize(self):
+        '''Return object data in easily serialize format'''
+        return {
+                'alias': self.alias,
+                'forw_addr': self.forw_addr
+               }
