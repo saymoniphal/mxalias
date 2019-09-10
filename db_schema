@@ -1,8 +1,0 @@
- Table "public.mxaliases"
-  Column   |         Type          | Modifiers | Storage  | Stats target | Description 
------------+-----------------------+-----------+----------+--------------+-------------
- alias     | character varying(50) | not null  | extended |              | 
- forw_addr | character varying(50) | not null  | extended |              | 
-Indexes:
-    "mxaliases_pkey" PRIMARY KEY, btree (alias, forw_addr)
-
