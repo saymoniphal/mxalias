@@ -17,7 +17,9 @@ def load_config(config_file, app):
     app.config['SQLALCHEMY_DATABASE_URI'] = configs['db_uri']
     app.config['HOST'] = configs['host']
     app.config['PORT'] = configs['port']
-    return app 
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
+    return app
 
 
 config_file = path.join(path.dirname(path.abspath(__file__)), 'mxalias.config')
@@ -50,7 +52,7 @@ def edit_alias(alias_addr=None, forw_addr=None):
             new_alias = request.form['alias']
             new_forw_addr = request.form['email1']
             if not _valid(new_alias) or not _valid(new_forw_addr):
-                return render_template('newalias.html', name='edit_alias', 
+                return render_template('newalias.html', name='edit_alias',
                                         invalid=True, alias_addr=new_alias, forw_addr=new_forw_addr), 400
 
             mxalias_obj = Mxalias.query.filter_by(alias=alias_addr, forw_addr=forw_addr).update({'alias': new_alias,
@@ -66,11 +68,11 @@ def edit_alias(alias_addr=None, forw_addr=None):
 def new_alias():
     if request.method == 'POST':
         req_form = request.form
-        if request.form['post_action'] == 'save_alias':
+        if req_form['post_action'] == 'save_alias':
             # get alias and all emails
             alias = req_form['alias']
             if not _valid(alias):
-                return render_template('newalias.html', name='new_alias', 
+                return render_template('newalias.html', name='new_alias',
                                         invalid=True, alias_addr=alias), 400
 
             counter = req_form['forw_addr_cnt']
