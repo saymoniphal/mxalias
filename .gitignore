@@ -1,5 +1,9 @@
-# exclude venv
+# exclude venv if any
 venv/
+
+# ignore .hypothesis, .pytest_cache
+.hypothesis/
+.pytest_cache/
 
 # exclude compiled .pyc files
 *.pyc

@@ -1,0 +1,11 @@
+# ignore .git, .idea - local IDE cofig and venv folder if any
+.git
+.idea
+venv
+
+# ignore .hypothesis, .pytest_cache
+.hypothesis
+.pytest_cache
+
+# ignore .pyc files
+**/*.pyc
