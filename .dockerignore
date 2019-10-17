@@ -9,3 +9,6 @@ venv
 
 # ignore .pyc files
 **/*.pyc
+
+# ignore local config file
+mxalias/mxalias.config
