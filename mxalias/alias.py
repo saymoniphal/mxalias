@@ -22,7 +22,8 @@ def load_config(config_file, app):
     return app
 
 
-config_file = path.join(path.dirname(path.abspath(__file__)), 'mxalias.config')
+#config_file = path.join(path.dirname(path.abspath(__file__)), 'mxalias.config')
+config_file = path.join('/config', 'mxalias.config')
 app = Flask(__name__, template_folder='templates')
 load_config(config_file, app)
 sqldb = SQLAlchemy(app)
